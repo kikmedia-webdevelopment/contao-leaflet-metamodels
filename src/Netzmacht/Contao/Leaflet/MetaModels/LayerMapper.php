@@ -89,7 +89,7 @@ class LayerMapper extends AbstractLayerMapper implements GeoJsonMapper
         parent::build($definition, $model, $mapper, $filter);
 
         if ($definition instanceof OmnivoreLayer) {
-            $metaModel = Factory::byId($model->metamodel);
+            $metaModel = Factory::getMetaModel($model->metamodel);
             $items     = $this->getItems($metaModel, $model, $filter);
 
             if (!$items->getCount()) {
@@ -120,7 +120,7 @@ class LayerMapper extends AbstractLayerMapper implements GeoJsonMapper
     public function handleGeoJson(\Model $model, DefinitionMapper $mapper, Filter $filter = null)
     {
         $collection = new FeatureCollection();
-        $metaModel  = Factory::byId($model->metamodel);
+        $metaModel  = Factory::getMetaModel($model->metamodel);
         $items      = $this->getItems($metaModel, $model, $filter);
         $renderers  = $this->getRenderers($model, $metaModel, $items, $mapper, $filter, true);
 
@@ -195,7 +195,7 @@ class LayerMapper extends AbstractLayerMapper implements GeoJsonMapper
     ) {
         $metaModelFilter = $metaModel->getEmptyFilter();
 
-        $filterSetting = FilterSettingFactory::byId($model->metamodel_filtering);
+        $filterSetting = FilterSettingFactory::getMetaModel($model->metamodel_filtering);
         $filterSetting->addRules(
             $metaModelFilter,
             array_merge(
